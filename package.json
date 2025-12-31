@@ -1,5 +1,5 @@
 {
-  "name": "copy-of-new-year-surprise-2026",
+  "name": "new-year-surprise-2026",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,8 +13,7 @@
     "react": "^19.2.3",
     "lucide-react": "^0.562.0",
     "framer-motion": "^12.23.26",
-    "canvas-confetti": "^1.9.4",
-    "@google/genai": "^0.21.0"
+    "canvas-confetti": "^1.9.4"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Step } from './types';
@@ -21,7 +22,7 @@ const App: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<Step>(Step.HOLD);
 
   useEffect(() => {
-    // Start background music listener on first interaction
+    // Start background music listener
     const startMusic = () => {
       soundManager.startBgMusic();
       window.removeEventListener('click', startMusic);
@@ -30,7 +31,7 @@ const App: React.FC = () => {
     window.addEventListener('click', startMusic);
     window.addEventListener('touchstart', startMusic);
 
-    // Pre-load all critical images immediately for zero-delay transitions
+    // Pre-load all critical images
     PRELOAD_IMAGES.forEach(url => {
       const img = new Image();
       img.src = url;
@@ -54,15 +55,16 @@ const App: React.FC = () => {
     });
   }, []);
 
+  // Helper for star colors
   const getStarColor = (i: number) => {
-    if (i % 7 === 0) return 'rgba(191, 219, 254, 0.8)';
-    if (i % 5 === 0) return 'rgba(252, 165, 165, 0.8)';
-    return 'rgba(255, 255, 255, 0.8)';
+    if (i % 7 === 0) return 'rgba(191, 219, 254, 0.8)'; // Soft Blue
+    if (i % 5 === 0) return 'rgba(252, 165, 165, 0.8)'; // Soft Rose
+    return 'rgba(255, 255, 255, 0.8)'; // Pure White
   };
 
   return (
     <div className="relative w-full h-screen bg-[#080212] text-white overflow-hidden flex items-center justify-center p-4">
-      {/* Dynamic Atmospheric Background */}
+      {/* Enhanced Dynamic Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
           animate={{ 
@@ -77,7 +79,7 @@ const App: React.FC = () => {
           className="absolute inset-0 opacity-80" 
         />
         
-        {/* Animated Star Field */}
+        {/* Drifting Stars with Multi-layer Parallax Feel */}
         {[...Array(60)].map((_, i) => (
           <motion.div
             key={`star-${i}`}
@@ -91,9 +93,11 @@ const App: React.FC = () => {
             animate={{
               opacity: [0.1, 0.9, 0.3, 0.9, 0.1],
               scale: [1, 1.3, 0.8, 1.2, 1],
+              x: [null, (Math.random() > 0.5 ? "+=40" : "-=40")],
+              y: [null, (Math.random() > 0.5 ? "+=40" : "-=40")],
             }}
             transition={{
-              duration: 5 + Math.random() * 10,
+              duration: 5 + Math.random() * 15,
               repeat: Infinity,
               ease: "linear"
             }}
@@ -107,26 +111,32 @@ const App: React.FC = () => {
           />
         ))}
 
-        {/* Ambient Glow Orbs */}
-        {[...Array(8)].map((_, i) => (
+        {/* Floating Bokeh Orbs with Fluid Color Shifts */}
+        {[...Array(10)].map((_, i) => (
           <motion.div
             key={`bokeh-${i}`}
             className="absolute rounded-full blur-[120px]"
             initial={{ 
               x: Math.random() * 100 + "%", 
               y: Math.random() * 100 + "%", 
-              width: 300 + Math.random() * 400,
-              height: 300 + Math.random() * 400,
-              backgroundColor: i % 2 === 0 ? 'rgba(236, 72, 153, 0.04)' : 'rgba(124, 58, 237, 0.04)',
-              opacity: 0.3
+              width: 250 + Math.random() * 450,
+              height: 250 + Math.random() * 450,
+              backgroundColor: i % 2 === 0 ? 'rgba(236, 72, 153, 0.05)' : 'rgba(124, 58, 237, 0.05)',
+              opacity: 0.4
             }}
             animate={{
-              x: [(Math.random() * 100) + "%", (Math.random() * 100) + "%"],
-              y: [(Math.random() * 100) + "%", (Math.random() * 100) + "%"],
-              scale: [1, 1.1, 1]
+              x: [(Math.random() * 100) + "%", (Math.random() * 100) + "%", (Math.random() * 100) + "%"],
+              y: [(Math.random() * 100) + "%", (Math.random() * 100) + "%", (Math.random() * 100) + "%"],
+              backgroundColor: [
+                'rgba(236, 72, 153, 0.06)',
+                'rgba(124, 58, 237, 0.06)',
+                'rgba(79, 70, 229, 0.06)',
+                'rgba(236, 72, 153, 0.06)',
+              ],
+              scale: [1, 1.1, 0.9, 1]
             }}
             transition={{
-              duration: 30 + Math.random() * 20,
+              duration: 25 + Math.random() * 20,
               repeat: Infinity,
               ease: "linear"
             }}
@@ -137,10 +147,10 @@ const App: React.FC = () => {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentStep}
-          initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
+          initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
           animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, scale: 1.05, filter: 'blur(10px)' }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          exit={{ opacity: 0, scale: 1.1, filter: 'blur(10px)' }}
+          transition={{ duration: 0.7, ease: [0.23, 1, 0.32, 1] }}
           className="w-full max-w-lg z-10"
         >
           {currentStep === Step.HOLD && <HoldStep onComplete={nextStep} />}
@@ -152,7 +162,7 @@ const App: React.FC = () => {
       </AnimatePresence>
 
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 text-white/10 text-[10px] tracking-[0.4em] uppercase font-bold pointer-events-none text-center">
-        New Year 2026 • Dedicated to Ayshuu
+        New Year 2026 • For My Ayshuu
       </div>
     </div>
   );
